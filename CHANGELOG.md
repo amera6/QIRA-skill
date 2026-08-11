@@ -4,7 +4,27 @@ All notable changes to the `qira-assessor` skill since the first commit (2026-07
 
 This file lives at the repo root, alongside `README.md` — not inside the `qira-assessor/` skill folder itself, consistent with the skill packaging convention (no extraneous files inside the folder Claude loads).
 
-## [1.1.0] — Unreleased (this update)
+## [1.2.0] — Unreleased (pending push)
+
+### Added
+- **`scripts/extract_docx_comments.py`** — new script (no third-party dependencies; stdlib `zipfile` + `xml.etree` only) that parses a commented `.docx` and extracts every comment's author, date, anchored text, comment body, and threaded replies into clean Markdown. Built and tested against a real annotated test file (two top-level comments with distinct anchors) before being added to the skill. First component in the skill to require a Python environment — everything else remains pure Markdown reasoning.
+- **Step 15 — Export a standalone Markdown file (on request)**, in `SKILL.md`. Formalizes producing a Recording Form as a standalone `.md` file (named after the Assessment reference) for committing to a repo's `outputs/` folder, separate from the conversational chat output.
+- **Step 16 — Extract reviewer comments from an annotated Word document (on request)**, in `SKILL.md`. Documents the `extract_docx_comments.py` workflow: an on-demand step triggered whenever the analyst supplies a commented file, not a live sync against SharePoint or any other source.
+- **`push_qira_output.sh`** (repo root, not part of the skill folder) — a local helper script for Git Bash that pulls, copies a file into `outputs/`, commits, and pushes. Intentionally kept outside the skill and outside anything Claude executes directly — it runs on the analyst's own machine using their own authenticated git setup, since the skill and Claude sessions should not handle GitHub credentials or tokens.
+
+### Changed
+- `compatibility` frontmatter field updated to note the one optional Python dependency (`extract_docx_comments.py`); trimmed to fit the 500-character frontmatter limit after the first draft exceeded it.
+- Reading order in `SKILL.md` extended to include `scripts/extract_docx_comments.py`, flagged as Step-16-only, not needed for a standard assessment run.
+- Version bumped `1.1.0` → `1.2.0`.
+
+### Explicitly out of scope for this change (by design, not oversight)
+- No automatic/passive monitoring of SharePoint for new comments — would require Power Automate or similar running on the analyst's infrastructure, outside what a Claude session can do on its own.
+- No direct GitHub push from within a Claude session — no GitHub connector was available, and even if one were, Claude should not handle personal access tokens or other credentials directly. Pushing remains a locally-run, analyst-authenticated step.
+- No direct SharePoint upload — the one relevant connector found (Microsoft 365) exposes search/read tools only, not a write/upload capability.
+
+---
+
+## [1.1.0] — 2026-07-30
 
 ### Added
 - **IHR (2005) Annex 2 decision instrument** — new `references/ihr_annex2_decision_instrument.md`, grounded in the primary WHO guidance document (WHO/HSE/IHR/2010.4) and the consolidated IHR text. Covers the two notification categories (four always-notifiable diseases; the broader four-criteria assessment), the full criteria, and brief paraphrased case examples. Wired into `SKILL.md` Step 11, the footnote (i) reference in `references/risk_classification_and_actions.md`, and `references/algorithm_essentials.md` §7 — previously this check relied on unexamined background knowledge rather than a grounded source.

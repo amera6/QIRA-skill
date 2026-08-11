@@ -1,10 +1,10 @@
 ---
 name: qira-assessor
 description: Walk any acute public health signal or event through the WHO Quick and Immediate Risk Assessment (QIRA) algorithm — a fast, hierarchical yes/no/unknown decision tree across five domains (high-threat hazard, exposure, severity, spread/scale, capacity) that resolves to a risk level (very low to very high) plus predefined immediate actions. Use this whenever the user provides a public health signal, outbreak report, or event description and asks for a QIRA assessment, a "quick risk assessment", or an immediate risk triage. Also use for questions about how QIRA routes a given answer, what risk level an event resolves to, or how to document a QIRA run in the Results Recording Form. Supports autonomous, hybrid, and interactive walkthrough modes.
-compatibility: Portable — pure Markdown reasoning skill, no external tools, scripts, or MCP dependencies required. The decision-tree diagram in assets/qira_decision_tree.md renders wherever Mermaid is supported (GitHub, Obsidian, most Markdown viewers); it degrades gracefully to a plain code block elsewhere.
+compatibility: Core skill is portable — pure Markdown reasoning, no dependencies required for running assessments. assets/qira_decision_tree.md renders wherever Mermaid is supported, degrading to a plain code block elsewhere. One optional component, scripts/extract_docx_comments.py, requires a Python 3 environment with filesystem access — only needed for the Step 16 comment-extraction workflow, not for core assessment.
 metadata:
   author: Adan
-  version: 1.1.0
+  version: 1.2.0
   tested: 4-signal battery (Salmonella/Canada, Ebola-Bundibugyo/importation-to-Canada, H5N1/Cambodia, measles/Bangladesh), 2026-07-10 — see references/domains_and_questions.md changelog note
 ---
 
@@ -40,6 +40,7 @@ When a sub-question's rationale draws on something beyond the signal itself and 
 6. `references/worked_example.md` — a condensed worked example for calibrating depth and voice (read once, or whenever a fresh example would help).
 7. `assets/recording_form_blank.md` — the actual fillable Recording Form structure; copy this into the output at Step 13.
 8. `assets/qira_decision_tree.md` — a Mermaid visual of the full routing logic; render or embed this when a visual aid would help an analyst follow or explain a walk (e.g., a novel or contested path), or when the output itself calls for a diagram.
+9. `scripts/extract_docx_comments.py` — used at Step 16 only, when extracting reviewer comments from an annotated Word document. Not needed for a standard assessment run.
 
 ---
 
@@ -128,3 +129,17 @@ Copy the structure from `assets/recording_form_blank.md` and fill it in, using `
 ## Step 14 — Present output
 
 Deliver the completed Recording Form. If the walk relied on an importation/spillover assumption, surface that prominently rather than burying it in the "Other considerations" field — it changes how the whole assessment should be read.
+
+## Step 15 — Export a standalone Markdown file (on request)
+
+When the analyst wants the Recording Form as a file for external review (e.g., committing to a repo's `outputs/` folder for colleagues to read), create a standalone `.md` file containing exactly the chat output — metadata block, Original signal code block, Part A, Part B — with no additional commentary. Name it after the Assessment reference (e.g., `QIRA-QC-2026-07-29-LEGIONELLOSIS-v1.md`), so the filename alone identifies the run. This file is meant to be committed by the analyst using their own git tooling — this skill does not push to any repository itself, and should not be asked to handle git credentials or tokens.
+
+## Step 16 — Extract reviewer comments from an annotated Word document (on request)
+
+If a colleague has annotated an exported `.docx` version of a Recording Form (e.g., via Word or SharePoint) and the analyst brings the commented file back, use `scripts/extract_docx_comments.py` to pull every comment into Markdown:
+
+```
+python3 scripts/extract_docx_comments.py reviewed.docx -o comments.md
+```
+
+This extracts each comment's author, date, the exact text it's anchored to, the comment body, and threaded replies (nested under their parent) — no manual re-reading of the Word document required. The script has no third-party dependencies (stdlib `zipfile` + `xml.etree` only) and degrades gracefully to "no comments found" if the document has none. This is an on-demand step, not a live sync — it runs whenever the analyst supplies a commented file, not automatically when SharePoint comments are added.
