@@ -1,0 +1,243 @@
+diff -ru /mnt/skills/user/qira-assessor/SKILL.md qira-assessor/SKILL.md
+--- /mnt/skills/user/qira-assessor/SKILL.md	2026-08-11 16:09:54.000000000 +0000
++++ qira-assessor/SKILL.md	2026-08-26 20:45:14.221709568 +0000
+@@ -4,8 +4,9 @@
+ compatibility: Core skill is portable — pure Markdown reasoning, no dependencies required for running assessments. assets/qira_decision_tree.md renders wherever Mermaid is supported, degrading to a plain code block elsewhere. One optional component, scripts/extract_docx_comments.py, requires a Python 3 environment with filesystem access — only needed for the Step 16 comment-extraction workflow, not for core assessment.
+ metadata:
+   author: Adan
+-  version: 1.2.0
++  version: 1.3.0
+   tested: 4-signal battery (Salmonella/Canada, Ebola-Bundibugyo/importation-to-Canada, H5N1/Cambodia, measles/Bangladesh), 2026-07-10 — see references/domains_and_questions.md changelog note
++  reviewed: 2-signal expert review (raccoon rabies/Quebec, iGAS/Quebec) by two PHAC risk assessors, 2026-08-19/20 — 18 comments; v1.3.0 addresses terminal mis-derivation, population-unit drift, evidence currency, statistic characterization, claim-scope overreach, and unstated comparators
+ ---
+ 
+ # QIRA Assessor
+@@ -30,6 +31,11 @@
+ - **Cite every specific fact or claim, not just genuinely external ones.** A claim like "imported cases into non-endemic health systems have historically remained isolated" is external empirical evidence and needs a freshly verified, hyperlinked source. A claim like "the signal reports 189 cases" is restating the analyst's own input and doesn't need a *new* search — but when that figure appears in a Rationale cell of the Recording Form, cite it back to the signal's own source (from its "Sources" field, verified at Step 3) rather than leaving it uncited. The goal is a fully traceable chain of evidence, not a distinction between "signal" and "external." The only things that don't need a citation are routing statements and restatements of the QIRA algorithm's own logic.
+ - **This adds tool calls and time.** Searching and verifying every external claim is slower than reasoning from recall. That tradeoff is deliberate — an unverifiable citation in a real risk assessment is worse than a visibly-flagged gap.
+ 
++**Verification means more than "the source exists."** A link that resolves is necessary and not sufficient. Two further tests, both of which have failed in reviewed runs:
++
++- **The link must support the full scope of the sentence it is attached to.** A claim spanning several jurisdictions and several years needs sources covering those jurisdictions and years — one regional dataset ending three years ago does not support it. If the available sourcing is narrower than the claim, narrow the claim to match rather than letting the link imply coverage it doesn't have. A reviewer caught exactly this: a multi-country, multi-year trend statement hyperlinked to a single-city dataset that stopped in 2023.
++- **Quantitative claims must be characterized correctly.** Before citing a statistic, state what measure it actually is (attack rate, incidence, risk ratio, odds ratio, CFR), over what denominator, and against what comparison group. Do not restate a ratio as a rate, and do not present a comparison between two differently-constructed denominators as though it were a single measure. A reviewer flagged a "1,940-fold the background attack rate" claim on both counts — the figure was a risk ratio, and it compared a household attack rate against community background incidence, which are different measures. **If the measure or its denominators can't be pinned down from the source, paraphrase the finding qualitatively ("close contacts face substantially elevated risk") instead of quoting a number.** A misdescribed statistic is worse than no statistic, because it looks precise.
++
+ ## Reading order
+ 
+ 1. `references/algorithm_essentials.md` — what QIRA is, scope-setting, confidence levels, limitations (read this first, always).
+@@ -70,6 +76,10 @@
+ 
+ **Preserve the analyst's original signal text verbatim** at this point — it goes unedited into the Recording Form's "Original signal" code block at Step 13, regardless of how it gets paraphrased or restructured for the walk itself.
+ 
++**The population named here sets the unit of assessment for the entire walk.** By default, every "case," "number affected," and "attack rate" in every downstream question is counted in that population — see `domains_and_questions.md` §4a. Restate the population explicitly at Step 7 and check the Domain 3, 4, and 5 answers against it before finalizing.
++
++If the analyst's signal makes a different population the more informative unit (a zoonotic hazard where the animal-side picture is what's actually moving), **raise it here, at scope-setting** — offer either a redefined scope or a second run alongside the first. An analyst may override the default and have the overall answers coded in other units; if they do, document it per §4a's override rules and report what the default coding would have produced. Do not raise the unit question for the first time mid-walk at Domain 4: by then it presents as a coding choice with a two-level swing attached, rather than the scope decision it actually is.
++
+ If the user hasn't supplied a predefined high-threat hazard list for their context, note that Domain 1 will default to NO/UNKNOWN unless they supply one (see `algorithm_essentials.md` §4).
+ 
+ **Importation/spillover check**: if the source event is outside the jurisdiction being assessed, or is a zoonotic pathogen not yet confirmed in humans, flag this immediately — per `algorithm_essentials.md` §6.2 and `domains_and_questions.md` §7, QIRA requires an explicit assumption (treat the event as already detected within the jurisdiction) before the tree can be walked at all. State the assumption plainly and get analyst sign-off on it in hybrid/interactive mode before proceeding — this is the single most consequential judgement call in the whole walk, since it determines what every downstream answer is actually conditioned on.
+@@ -90,18 +100,31 @@
+ 
+ Apply §4, using whichever of Question 4.1 or 4.2 applies given the path taken so far. Terminal "Very low" resolves here if Question 4.1 = NO — in that case, skip straight to Step 10 (there's no Domain 5 to walk).
+ 
++Two mandatory checks before recording the overall answer, both from `domains_and_questions.md` §4a–4b:
++
++1. **Restate the scoped population and confirm the overall answer is in its units.** Sub-questions may draw on animal, environmental, or other-population evidence; by default the overall answer counts cases in the Step 3 population only. This is the single most common way a walk goes wrong by two risk levels. If a unit override was elected at Step 3, apply it and record it per §4a.
++2. **State the comparator** — expected baseline, observed figure, and the comparison between them, each sourced. No baseline available means the sub-question is Unknown; it does not mean answer Yes and note the gap.
++
+ ## Step 8 — Domain 5: Capacity
+ 
+ Apply §5. This is where the walk terminates. Use the **consolidated routing table** in `domains_and_questions.md` §6 to determine the final risk level — track which path led to Question 5.2 (there are several), since the same Yes/No answer to 5.2 maps to different risk levels depending on the path.
+ 
+-## Step 9 — Confirm risk level
++## Step 9 — Derive and confirm the risk level
++
++**Perform the mandatory four-step re-derivation in `domains_and_questions.md` §6a before writing the terminal level anywhere.** State, in writing and as separate steps: the arrival row, the gate letter, the answer at that gate, and the terminal read off the table for that gate-and-answer pair. This is a lookup performed at this moment, not a confirmation of a level formed earlier in the walk. A live run has already reported Low from a gate that maps to Moderate, with the gate correctly labelled — so treat this derivation as a hard control, not a formality.
++
++Then apply the sanity floor: a walk that reached Question 5.1 cannot terminate below Moderate, and Very low is reachable only via Q4.1 = No or gate 5.2a = Yes. A violation means a derivation error, not a surprising finding.
+ 
+-State the terminal risk level and the exact path taken (which domains were walked, which were skipped and why). This is the point at which hybrid-mode analysts should see the full reasoning if they haven't already. If the path was unusual, contested, or would benefit from a visual (a novel hazard, a Domain 1 override decision, or a request to explain the algorithm itself), render or point to `assets/qira_decision_tree.md` alongside the text explanation rather than as a substitute for it.
++If the derived level conflicts with your analytical read of the event, **do not adjust the terminal** — locate the upstream sub-question responsible, fix its coding if it is genuinely wrong, and re-derive. If the coding is right and the level still feels wrong, that tension is reportable content for the confidence section (Step 10), not grounds for overriding the table.
++
++Finally, state the exact path taken (which domains were walked, which were skipped and why). This is the point at which hybrid-mode analysts should see the full reasoning if they haven't already. If the path was unusual, contested, or would benefit from a visual (a novel hazard, a Domain 1 override decision, or a request to explain the algorithm itself), render or point to `assets/qira_decision_tree.md` alongside the text explanation rather than as a substitute for it.
+ 
+ ## Step 10 — Confidence level
+ 
+ Apply Table 1 from `algorithm_essentials.md` §5. Name the specific information gaps or areas of expert agreement/disagreement driving the confidence rating — don't just assert a level.
+ 
++**State the direction of error, not just its size.** For each judgement call that could reasonably have gone the other way, say which way the alternative coding would move the terminal level and by how much (see `algorithm_essentials.md` §5a). "A different analyst could land elsewhere" is not usable by a reviewer; "coding C4 against the human baseline instead would give 4.2 = No → gate 5.2b → Low" is. Where several open calls all push the same direction, say so explicitly — that is a systematic lean in the assessment, and it is the most useful thing a confidence statement can tell a reviewer.
++
+ ## Step 11 — Immediate actions and escalation flag
+ 
+ Select actions per `risk_classification_and_actions.md` §2 — use the analyst's own predefined list if one exists; otherwise use the illustrative menu and flag that a jurisdiction-specific list should be formalized. Apply the cross-cutting footnotes from §3. For footnote (i) — the IHR Annex 2 check — consult `references/ihr_annex2_decision_instrument.md` directly rather than relying on background knowledge: confirm whether the hazard is one of the four always-notifiable diseases, and if not, run the four-criteria assessment and report the result explicitly, independent of the QIRA risk level.
+diff -ru /mnt/skills/user/qira-assessor/assets/recording_form_blank.md qira-assessor/assets/recording_form_blank.md
+--- /mnt/skills/user/qira-assessor/assets/recording_form_blank.md	2026-08-11 16:09:54.000000000 +0000
++++ qira-assessor/assets/recording_form_blank.md	2026-08-26 15:41:22.652887451 +0000
+@@ -21,8 +21,9 @@
+ 
+ - **Signal/event**:
+ - **Jurisdiction**:
+-- **Scope**:
++- **Scope**: [include the population of concern — this is the unit of assessment for every case count in the walk]
+ - **Risk level**:
++- **Derivation**: [arrival row → gate → answer → terminal, e.g. "Q5.1 = No → gate 5.2c → Yes → Moderate"; must match the risk level above]
+ - **Rationale**:
+ - **Confidence level**:
+ - **Proposed actions**:
+@@ -41,4 +42,4 @@
+ | 5.1 Capacity | Is the health care system likely to be overwhelmed? | | |
+ | 5.2[a/b/c/d/e] Capacity | Are capacities for prevention and control measures in place? | | |
+ 
+-**Terminal risk level:**
++**Terminal risk level:** [re-derive per domains_and_questions.md §6a before writing — must match Part A Derivation]
+diff -ru /mnt/skills/user/qira-assessor/references/algorithm_essentials.md qira-assessor/references/algorithm_essentials.md
+--- /mnt/skills/user/qira-assessor/references/algorithm_essentials.md	2026-08-11 16:09:54.000000000 +0000
++++ qira-assessor/references/algorithm_essentials.md	2026-08-26 15:40:43.647284440 +0000
+@@ -55,6 +55,16 @@
+ | **Moderate** | Additional data likely to change the assessment | Moderate | Some information gaps, not necessarily key ones; some expert agreement on key aspects; moderate variability |
+ | **Low** | Additional data very likely to change the assessment | High | Critical gaps in key information; low expert agreement; novel event type; high or poorly-characterized variability |
+ 
++### 5a. Reporting confidence usefully — direction, not just magnitude
++
++Table 1 gives the level. What makes the level usable to a reviewer is stating **which way the assessment would move** if the open questions resolved differently. Three requirements, all added after expert review found the previous format insufficient:
++
++- **Name the alternative coding and its terminal.** For each judgement call that could reasonably have gone the other way, give the sub-question, the alternative answer, the resulting route, and the resulting risk level — "coding C4 against the human baseline instead gives 4.2 = No → gate 5.2b → Low." Vague acknowledgement that reasonable analysts might differ tells a reviewer nothing they can check.
++- **Say when the open calls lean the same way.** If every unresolved judgement would push the terminal down (or up), that is a systematic lean, and it is more important than the confidence label itself. Reviewers will otherwise find it themselves, one comment at a time.
++- **Source trajectory claims like any other fact.** Statements about where a situation is heading — "accelerating," "still rising," "plateauing," "expanding" — are empirical claims subject to the same verification and hyperlinking rules as static facts, and they are easy to overstate. Distinguish growth in the hazard from growth in detection or in the area under surveillance; a jurisdiction extending control operations into new territory is evidence the response is following the hazard, not evidence the hazard is accelerating. Where the direction genuinely isn't established, say the situation is ongoing and leave it there.
++
++A confidence section that does these three things lets a reviewer disagree precisely. One that doesn't forces them to reconstruct the walk to find out what would have changed.
++
+ ## 6. Limitations — read before applying to novel scenarios
+ 
+ **6.1 Methodological.** QIRA is deliberately blunt: fixed yes/no/unknown questions, predefined generic actions per risk level. It won't capture nuance or fit every specific scenario. When an event may have serious public health implications, a more comprehensive, multidisciplinary rapid risk assessment process is warranted rather than stretching QIRA past its design intent — QIRA is built for speed, not depth.
+diff -ru /mnt/skills/user/qira-assessor/references/domains_and_questions.md qira-assessor/references/domains_and_questions.md
+--- /mnt/skills/user/qira-assessor/references/domains_and_questions.md	2026-08-11 16:09:54.000000000 +0000
++++ qira-assessor/references/domains_and_questions.md	2026-08-26 20:44:56.839479682 +0000
+@@ -52,6 +52,8 @@
+ - **NO** → A2=NO OR B2=NO OR C2=NO. Skip to Question 4.1 (Domain 4, "significant number currently affected" branch).
+ - **UNKNOWN** → genuine uncertainty on the overall question. Continue to Domain 3 (uncertainty is treated like YES for routing purposes here).
+ 
++**Note on low-discrimination answers.** For any event that is currently ongoing, A2 ("is the hazard still present?") is affirmative more or less by definition, so a Yes here carries little information about the specific event. The same is true of A3/B3 for a hazard with a well-known severity profile — coding rabies as severe restates the pathogen, not the signal. This is a property of the WHO algorithm as written, not something this skill can or should fix by answering differently. What the skill *can* do is name it: where a sub-question is affirmative on definitional grounds rather than event-specific evidence, say so in the rationale, so a reader does not mistake a near-automatic Yes for a finding about this event. Flag it as an observation about the algorithm's structure and attribute it as such — the manual does not comment on it.
++
+ ---
+ 
+ ## 3. Domain 3 — Severity
+@@ -83,6 +85,43 @@
+ - **C4** — Has a high attack rate been observed relative to population, place, and time period (i.e., unusually rapid spread)?
+ - **D4** — If transmission route or hazard type (or both) is unknown, has a moderate-to-high number of cases been reported in a short period? For endemic diseases, benchmark against the expected baseline for the period, not raw case counts.
+ 
++### 4a. Unit of assessment — the overall answer defaults to the scoped population's units
++
++**"A high number of cases" means cases in the population of concern named at Step 3.** This is the strong default and it holds unless the analyst explicitly overrides it.
++
++Sub-questions may legitimately be evaluated in other units — B4 explicitly directs you to assess contact with infected animals and wildlife for zoonotic hazards, so animal-side evidence belongs in B4 and often in A4. But that evidence **informs the sub-questions; by default it does not carry the overall answer.** The overall Question 4.2 answer is about expected cases in, or geographical spread affecting, the scoped population.
++
++Worked contrast, using a wildlife rabies epizootic scoped to humans:
++
++- *Default coding*: A4 and B4 draw on the reservoir picture as the manual directs. The overall 4.2 answer then asks whether a high number of **human** cases is expected: with sustained animal circulation, extensive exposure, and no human cases across two years, the answer is **No** → gate 5.2b.
++- *Mixed-unit coding*: reading the animal case count as "cases" and answering 4.2 = Yes routes to 5.1 and inflates the walk by roughly two risk levels. This is the failure mode the default exists to prevent.
++
++**Provenance note.** The manual defines scope at §4.2 and uses "cases" throughout without ever stating that the two are bound. That binding is this skill's own synthesis, not a rule the manual states — flag it as such if an analyst asks why the constraint exists.
++
++**Documented override.** An analyst may direct that the overall answer be coded in different units — for a zoonotic hazard where the animal-side picture is what is actually moving, this can be the more informative run. When they do:
++
++- **The analyst elects it; the skill does not offer it as a routine mid-walk choice.** Raise the option at Step 3, when scope is being set, not as a CONFIRM item at Domain 4 after the walk is underway. Presenting it late converts a scope decision into a coding decision and puts a two-level swing in the analyst's hands without the context to judge it.
++- **Record it like any other assumption** — in the Recording Form's "Other considerations" field, per §7's documentation rule, stating the unit used, which questions it applies to, and why.
++- **Say what the default would have produced.** Give the terminal the scoped-population coding would have reached, so a reader can see the size of the override's effect.
++- **Prefer a second run over a mixed walk.** Where practical, the cleaner answer to "I want both pictures" is two assessments with different populations at Step 3, each internally consistent, rather than one walk with blended units.
++
++The same default governs Question 4.1 ("a significant number of people currently affected"), Domain 3's "cases," and Domain 5's caseload questions.
++
++### 4b. State the comparator before answering
++
++The manual supplies no numeric thresholds for "high number," "significant number," or "high attack rate," and reviewers have specifically objected to answers that assert these without saying what they are measured against. Before coding A4, C4, D4, or Question 4.1, state three things explicitly in the rationale:
++
++1. **The expected baseline** for this hazard, this place, this population, and this period — sourced and hyperlinked like any other external fact.
++2. **The observed figure** over the same period and denominator.
++3. **The comparison** — the ratio, multiple, or exceedance, in the scoped population's units.
++
++If no baseline can be found, that is an **Unknown to declare, not a gap to reason past**. Writing "no precise baseline was available" and then answering Yes anyway is exactly the failure this rule exists to prevent. Where a baseline is genuinely unavailable, code the sub-question Unknown, say so in the rationale, and let the routing table handle it.
++
++Two cautions when constructing the comparison:
++
++- **Ascertainment.** Rising counts against an expanding surveillance footprint, a new case definition, or a newly established testing program partly measure detection effort, not incidence. Say which you think you are seeing, and on what basis.
++- **Control-zone expansion is not outbreak acceleration.** A jurisdiction extending its control or surveillance area into new territory indicates the response is following the hazard; it does not by itself establish that the hazard is accelerating.
++
+ **Routing:**
+ - **YES** → (A4=YES AND B4=YES) OR C4=YES OR D4=YES. Continue to Domain 5.
+ - Following Q3=NO → Q4.2 answer routes to **Question 5.2** (skipping the health-system-overwhelm question).
+@@ -106,6 +145,18 @@
+ - **D5** — Is there a high level of public awareness of risks/mitigation among at-risk and affected populations, supported by effective RCCE? Consider whether people know the risks, know signs/symptoms and where to seek care, and whether RCCE is actively improving knowledge/behaviour.
+ - **E5** — Are there major vulnerabilities or barriers that could undermine effectiveness or uptake of prevention, diagnosis, or clinical management (humanitarian crises, hostilities, natural disasters, concurrent outbreaks, resource shortages, distrust, stigma, discrimination)? **This one calls for expert judgement** — the manual specifically flags that the impact of a vulnerability/barrier depends heavily on context, and it should only be coded as "major" if it significantly hampers response effectiveness.
+ 
++### 5a. Capacity evidence must be current — date-stamp it
++
++Domain 5 asks what is **available and implemented now**, for this event, within the assessment window. Evidence that a jurisdiction responded competently to a comparable event in the past is a weaker claim and must not be coded as though it were active capacity.
++
++Every piece of evidence cited in B5, C5, or D5 carries its date in the rationale. Then classify it:
++
++- **Active capacity** — documented as in effect during, or established for, the current event and assessment window. This supports a Yes.
++- **Precedent** — a protocol, advisory, or operation from a prior event or an earlier period, with no evidence it is currently in force. This supports a *weaker* claim: that the jurisdiction has the know-how and a template. Label it as precedent in the rationale and do not let it alone carry a sub-question to Yes.
++- **Unknown** — where currency cannot be established. Say so rather than assuming continuity.
++
++A concrete instance of getting this wrong: a 2023 regional vigilance call with a contact-prophylaxis protocol was cited as B5 evidence of measures in place for a 2026 cluster. A reviewer flagged that three-year gap directly. Standing programs that are documented as ongoing (a recurring vaccination campaign with a current-year operational plan, a permanent surveillance zone) are active capacity and count normally — the test is documented currency, not recency of the source article.
++
+ ---
+ 
+ ## 6. Consolidated routing table
+@@ -142,6 +193,24 @@
+ 
+ **Reading this table**: Question 5.2 is reached via several different paths, and the *same* yes/no answer to 5.2 maps to a different terminal risk level depending on which path got you there. Always track which entry row you arrived through — don't just look up "5.2 = Yes" in isolation. This is the one place a literal transcription risk exists; when in doubt, re-derive from Fig. 2 in the source manual rather than from memory of a prior run.
+ 
++### 6a. Mandatory terminal re-derivation
++
++A warning is not a control, and this one has already failed in a live run: an assessment correctly identified its gate as 5.2c, correctly answered Yes, and then reported **Low** where the table says **Moderate**. The gate label was right and the lookup was still wrong.
++
++So before the terminal risk level is written anywhere — not in the Recording Form, not in Part A, not in a chat summary — **stop and perform this derivation explicitly, in writing, as four separate stated steps**:
++
++1. **Arrival row** — which routing-table row delivered you to Question 5.2? State it in full (e.g. "reached via Q5.1 = No").
++2. **Gate letter** — which of 5.2a–5.2e does that row correspond to? State the letter.
++3. **Answer** — what is the Yes / No-or-Unknown answer at that gate?
++4. **Terminal** — read the risk level off the table row for that gate *and* that answer. Quote the mapping (e.g. "5.2c + Yes → Moderate").
++
++Rules governing this derivation:
++
++- **Do it once, at the end, as its own act.** Never carry a terminal level forward from earlier in the walk, from a prior run of a similar signal, or from an expectation formed while reasoning through the domains. The derivation reads the table; it does not confirm a level you already had in mind.
++- **The rationale prose must match the derivation.** If a Rationale cell says "gate 5.2c resolves to Low," that sentence is itself the error — check every sentence naming a terminal against step 4 above.
++- **A mismatch between the derived terminal and analytical intuition is not resolved by adjusting the terminal.** If the derived level feels wrong, the error is upstream, in a sub-question coding — go back and find it, fix the coding, and re-derive. Silently overriding the table destroys the reproducibility that is QIRA's entire reason for existing.
++- **Sanity floor.** Any walk that reaches Question 5.1 can only terminate at Moderate, High, or Very high — reaching 5.1 means Q2, Q3, and Q4.2 all came out Yes or Unknown. A walk that reaches 5.1 and reports Very low or Low has a derivation error by construction. Similarly, Very low is reachable only via Q4.1 = No or gate 5.2a = Yes.
++
+ ---
+ 
+ ## 7. Assumption handling for imported / not-yet-occurred events
+diff -ru /mnt/skills/user/qira-assessor/references/recording_form_template.md qira-assessor/references/recording_form_template.md
+--- /mnt/skills/user/qira-assessor/references/recording_form_template.md	2026-08-11 16:09:54.000000000 +0000
++++ qira-assessor/references/recording_form_template.md	2026-08-26 15:41:08.095683198 +0000
+@@ -22,10 +22,11 @@
+ 
+ - **Signal/event:**
+ - **Member State / subnational area:**
+-- **Brief summary of signal or event and scope of assessment:** time, place, person; what the event is and why it's of interest; geographical area and population in scope; forward-looking window (valid until when, absent major change).
++- **Brief summary of signal or event and scope of assessment:** time, place, person; what the event is and why it's of interest; geographical area and population in scope; forward-looking window (valid until when, absent major change). **The population stated here is the unit of assessment for every "case" count in the walk** (`domains_and_questions.md` §4a) — state it unambiguously, because a reader checking the Part B answers will check them against this line.
+ - **Risk level classification:** [Very low | Low | Moderate | High | Very high]
++- **Derivation:** a single line showing the terminal was read off the routing table, in the form `arrival row → gate → answer → terminal` (e.g. "reached via Q5.1 = No → gate 5.2c → Yes → **Moderate**"). This is mandatory and must match the level stated above and every terminal named anywhere in Part B. See `domains_and_questions.md` §6a — a reviewed run has already reported a terminal that contradicted its own correctly-labelled gate, and this line is the control against that.
+ - **Rationale:** the specific findings that drove the routing outcome — name the domains and sub-questions that determined the path, not a generic restatement of the risk level.
+-- **Confidence level:** [Low | Moderate | High] with the specific information gaps or expert-agreement basis (Table 1 in `algorithm_essentials.md` §5).
++- **Confidence level:** [Low | Moderate | High] with the specific information gaps or expert-agreement basis (Table 1 in `algorithm_essentials.md` §5). Per §5a, also state **which way** the assessment would move under the plausible alternative codings — naming the sub-question, the alternative answer, and the terminal it produces — and flag explicitly when the open calls all lean the same direction.
+ - **Proposed actions:** drawn from the Member State's predefined list where one exists (see `risk_classification_and_actions.md` §2); note explicitly if none exists and a generic menu was used instead.
+ - **Other considerations:** any footnote-level items from `risk_classification_and_actions.md` §3 that apply (IHR notification flag, cross-border sharing, political sensitivity, novel-hazard judgement call), and any assumptions made per `domains_and_questions.md` §7 (importation/spillover assumption, modified question wording).
+ 
+@@ -41,6 +42,14 @@
+ - The only things that don't need a citation are routing statements (e.g., "→ Domain 2") and restatements of the QIRA algorithm's own logic, which is already sourced via the reference files.
+ - If verification isn't feasible, say so plainly rather than presenting an unverified claim as sourced.
+ 
++**Three further tests on every cited claim** (all added after expert review; see SKILL.md's citation section for the failures that prompted them):
++
++- **Scope match.** The link must support the whole scope of the sentence it's attached to — all the jurisdictions, all the years. If the sourcing is narrower, narrow the sentence.
++- **Correct characterization of statistics.** Name the measure (attack rate, incidence, risk ratio, CFR), its denominator, and its comparison group. Never restate a ratio as a rate, and never present a comparison across differently-constructed denominators as a single measure. If these can't be pinned down, paraphrase qualitatively instead of quoting a number.
++- **Currency of capacity evidence.** In B5/C5/D5 rationale, date-stamp each measure cited and label it **active capacity** (in effect for this event, in this window) or **precedent** (a prior-event protocol with no evidence it's currently in force). Precedent alone does not carry a capacity sub-question to Yes — see `domains_and_questions.md` §5a.
++
++**Comparator statements in Domain 4 rows.** Any Rationale cell answering Question 4.1 or the A4/C4/D4 sub-questions states the expected baseline, the observed figure, and the comparison between them, in the scoped population's units, each sourced (`domains_and_questions.md` §4b). Where a baseline is unavailable, the cell says so and the sub-question is coded Unknown — never asserted as Yes with the gap noted alongside.
++
+ Sub-question reference, domain by domain:
+ 
+ | Domain | Sub-questions | Overall question | Routing after Overall |
