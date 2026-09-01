@@ -8,21 +8,13 @@
 
 ## 1. What QIRA is for
 
-QIRA is a **quick, immediate** risk assessment tool for events already verified (or in urgent cases, prior to verification) within public health intelligence (PHI) activities. It is meant for use by the team already doing routine detection/verification — not a multidisciplinary panel — and produces two things: a risk level (very low → very high) and a set of immediate actions drawn from a Member State's own predefined list.
+QIRA is a **quick, immediate** risk assessment tool for events already verified (or in urgent cases, prior to verification) within public health intelligence (PHI) activities. It is meant for use by the team already doing routine detection/verification, and produces two things: a risk level (very low → very high) and a set of immediate actions drawn from a jurisdiction's own predefined list.
 
-**QIRA vs. MS-RRA** — the two tools are sequential, not competing:
+It is a self-contained, hierarchical yes/no/unknown decision tree: each question's answer determines the next question, and the walk terminates at a risk level with no separate scoring or averaging step. This skill treats QIRA on its own terms — its logic doesn't depend on, or feed into, any other assessment framework.
 
-| | QIRA | MS-RRA |
-|---|---|---|
-| Completion time | Under 1 hour | Typically several days |
-| Team | Routine detection/verification team | Multidisciplinary team |
-| Question format | Yes/No/Unknown, hierarchical, unidirectional | Six guiding questions per axis, described then coded |
-| Output | Risk level + predefined immediate actions | Risk level (optional) + event-specific actions + documented information gaps |
-| Trigger for the other | A moderate/high/very-high QIRA result is itself an indicative criterion for initiating MS-RRA | — |
+QIRA traces back to WHO's 2012 *Rapid risk assessment of acute public health events* manual. It originated at WHO's South-East Asia Regional Office (building on Western Pacific and ECDC tools), was globalized in 2024 via a 19-Member-State survey, and piloted in six Member States before this version.
 
-Both tools trace back to WHO's 2012 *Rapid risk assessment of acute public health events* manual. QIRA originated at WHO's South-East Asia Regional Office (building on Western Pacific and ECDC tools), was globalized in 2024 via a 19-Member-State survey, and piloted in six Member States before this version.
-
-## 2. Glossary (shared vocabulary with MS-RRA)
+## 2. Glossary
 
 - **Signal** — data/information considered to represent a potential acute risk to human health, from any source.
 - **Event** — a signal that has been verified (validity/veracity cross-checked).
@@ -63,9 +55,19 @@ Report a confidence level alongside the risk level, using Table 1:
 | **Moderate** | Additional data likely to change the assessment | Moderate | Some information gaps, not necessarily key ones; some expert agreement on key aspects; moderate variability |
 | **Low** | Additional data very likely to change the assessment | High | Critical gaps in key information; low expert agreement; novel event type; high or poorly-characterized variability |
 
+### 5a. Reporting confidence usefully — direction, not just magnitude
+
+Table 1 gives the level. What makes the level usable to a reviewer is stating **which way the assessment would move** if the open questions resolved differently. Three requirements, all added after expert review found the previous format insufficient:
+
+- **Name the alternative coding and its terminal.** For each judgement call that could reasonably have gone the other way, give the sub-question, the alternative answer, the resulting route, and the resulting risk level — "coding C4 against the human baseline instead gives 4.2 = No → gate 5.2b → Low." Vague acknowledgement that reasonable analysts might differ tells a reviewer nothing they can check.
+- **Say when the open calls lean the same way.** If every unresolved judgement would push the terminal down (or up), that is a systematic lean, and it is more important than the confidence label itself. Reviewers will otherwise find it themselves, one comment at a time.
+- **Source trajectory claims like any other fact.** Statements about where a situation is heading — "accelerating," "still rising," "plateauing," "expanding" — are empirical claims subject to the same verification and hyperlinking rules as static facts, and they are easy to overstate. Distinguish growth in the hazard from growth in detection or in the area under surveillance; a jurisdiction extending control operations into new territory is evidence the response is following the hazard, not evidence the hazard is accelerating. Where the direction genuinely isn't established, say the situation is ongoing and leave it there.
+
+A confidence section that does these three things lets a reviewer disagree precisely. One that doesn't forces them to reconstruct the walk to find out what would have changed.
+
 ## 6. Limitations — read before applying to novel scenarios
 
-**6.1 Methodological.** QIRA is deliberately blunt: fixed yes/no/unknown questions, predefined generic actions per risk level. It won't capture nuance or fit every specific scenario. When an event may have serious public health implications, escalate to MS-RRA for a more comprehensive assessment rather than stretching QIRA past its design intent.
+**6.1 Methodological.** QIRA is deliberately blunt: fixed yes/no/unknown questions, predefined generic actions per risk level. It won't capture nuance or fit every specific scenario. When an event may have serious public health implications, a more comprehensive, multidisciplinary rapid risk assessment process is warranted rather than stretching QIRA past its design intent — QIRA is built for speed, not depth.
 
 **6.2 Importation and spillover — the load-bearing limitation.** QIRA **cannot estimate the likelihood of a hazard being imported** into the Member State, and **cannot estimate the likelihood of zoonotic spillover** to humans. It can still be used to assess a hazard that hasn't yet reached the human population *within* the Member State — but only by making an explicit assumption first: **assume the event has already affected the population** (e.g., assume a case has been detected at a point of entry or in the community), then answer the algorithm's questions against that assumption. Modify question wording to fit the assumption if needed (e.g., "assuming a case is identified at the airport, is further exposure likely to take place"), while preserving the question's intended information target.
 
@@ -75,8 +77,8 @@ Any such assumption, and any question wording changes made to accommodate it, **
 
 ## 7. IHR (2005) notification
 
-Notification decisions under IHR (2005) Annex 2 (as amended by WHA77.17) are **never conditional** on QIRA's results — that determination runs independently. QIRA's findings can, however, usefully inform an Annex 2 assessment, since QIRA's content is aligned with the Annex 2 considerations.
+Notification decisions under IHR (2005) Annex 2 (as amended by WHA77.17) are **never conditional** on QIRA's results — that determination runs independently. QIRA's findings can, however, usefully inform an Annex 2 assessment, since QIRA's content is aligned with the Annex 2 considerations. See `references/ihr_annex2_decision_instrument.md` for the actual decision instrument — don't reason about Annex 2 from background knowledge alone.
 
 ## 8. Updating an assessment
 
-Repeat the assessment when the epidemiological or contextual situation changes materially, or when confidence in the current assessment is not high and new information becomes available. For events with serious implications, consider moving to MS-RRA at the point of reassessment rather than repeating QIRA indefinitely.
+Repeat the assessment when the epidemiological or contextual situation changes materially, or when confidence in the current assessment is not high and new information becomes available. For events with serious implications, consider whether a more comprehensive assessment process is warranted at the point of reassessment rather than repeating QIRA indefinitely.
