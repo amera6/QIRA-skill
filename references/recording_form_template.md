@@ -34,7 +34,7 @@ Reproduce the analyst's original signal text verbatim in the fenced code block, 
 
 **Standing format**: `Domain | Overall Question | Answer | Rationale`. One row per domain/question actually reached — skip rows the routing logic bypassed entirely (e.g., Question 4.1's row when Domain 2 routed to Question 4.2 instead). The Domain column always carries the full domain name (not just a number), and the Overall Question column always carries the actual question text (not a paraphrase or placeholder).
 
-**Fold the sub-question detail into the Rationale, don't give it separate rows.** Name and describe the specific sub-questions (A2, B2, C2, etc.) that significantly influenced the Overall answer, written out with enough content that a reader doesn't need to cross-reference the manual to know what "B2" means — e.g. "further exposure is likely (B2) because the product remains in circulation via an untraceable supply chain," not just "B2 = Yes."
+**Fold the sub-question detail into the Rationale, don't give it separate rows.** Name and describe the specific sub-questions (Q2 A, Q2 B, Q2 C, etc.) that significantly influenced the Overall answer, written out with enough content that a reader doesn't need to cross-reference the manual to know what "Q2 B" means — e.g. "further exposure is likely (Q2 B) because the product remains in circulation via an untraceable supply chain," not just "Q2 B = Yes."
 
 **Citation scope is broader than "external facts only."** Every specific fact, statistic, or claim in a Rationale cell needs a traceable source:
 - If it's a figure or fact drawn from the signal itself, cite back to the *signal's own source* (whatever was in its "Sources" field, verified at Step 3) — don't leave it uncited just because it technically came from the analyst's input, since the point is a fully traceable chain of evidence, not a distinction between "signal" and "external."
@@ -46,21 +46,23 @@ Reproduce the analyst's original signal text verbatim in the fenced code block, 
 
 - **Scope match.** The link must support the whole scope of the sentence it's attached to — all the jurisdictions, all the years. If the sourcing is narrower, narrow the sentence.
 - **Correct characterization of statistics.** Name the measure (attack rate, incidence, risk ratio, CFR), its denominator, and its comparison group. Never restate a ratio as a rate, and never present a comparison across differently-constructed denominators as a single measure. If these can't be pinned down, paraphrase qualitatively instead of quoting a number.
-- **Currency of capacity evidence.** In B5/C5/D5 rationale, date-stamp each measure cited and label it **active capacity** (in effect for this event, in this window) or **precedent** (a prior-event protocol with no evidence it's currently in force). Precedent alone does not carry a capacity sub-question to Yes — see `domains_and_questions.md` §5a.
+- **Currency of capacity evidence.** In Q5.2 B/C/D rationale, date-stamp each measure cited and label it **active capacity** (in effect for this event, in this window) or **precedent** (a prior-event protocol with no evidence it's currently in force). Precedent alone does not carry a capacity sub-question to Yes — see `domains_and_questions.md` §5a.
 
-**Comparator statements in Domain 4 rows.** Any Rationale cell answering Question 4.1 or the A4/C4/D4 sub-questions states the expected baseline, the observed figure, and the comparison between them, in the scoped population's units, each sourced (`domains_and_questions.md` §4b). Where a baseline is unavailable, the cell says so and the sub-question is coded Unknown — never asserted as Yes with the gap noted alongside.
+**Comparator statements in Domain 4 rows.** Any Rationale cell answering Question 4.1 or the Q4.2 A1/B/C sub-questions states the expected baseline, the observed figure, and the comparison between them, in the scoped population's units, each sourced (`domains_and_questions.md` §4b). Where a baseline is unavailable, the cell says so and the sub-question is coded Unknown — never asserted as Yes with the gap noted alongside. Q4.2 B names its tier and measure, and is Unknown only when neither tier is available (§4c).
+
+**Name the population behind each sub-question.** When the Rationale describes a sub-question from Domain 2 onward, name the population that sub-question reasons about. Where it is not the scoped population — a subgroup, a reservoir, another jurisdiction — say so and give the scoped-population coding alongside (`domains_and_questions.md` §4a). If the concentration check fired at Step 3, the Scope line in Part A records the group, its share of cases, and the scope options not taken.
 
 Sub-question reference, domain by domain:
 
 | Domain | Sub-questions | Overall question | Routing after Overall |
 |---|---|---|---|
-| 1. High-threat hazard | A1, B1, C1 | Does the signal/event involve a hazard predefined as a high threat in your geographical area? | If yes (no override) → **5.2e**. If no/unknown, or yes-with-override → Domain 2. |
-| 2. Exposure | A2, B2, C2 | Is further exposure likely to take place? | If yes/unknown → Domain 3. If no → 4.1. |
-| 3. Severity | A3, B3, C3 | Is the disease likely to be moderate to severe among cases in this population? | → 4.2 (severity answer determines which 4.2 branch, and later which 5.2 gate, is reached — see `domains_and_questions.md` §6). |
+| 1. High-threat hazard | A, B, C | Does the signal/event involve a hazard predefined as a high threat in your geographical area? | If yes (no override) → **5.2e**. If no/unknown, or yes-with-override → Domain 2. |
+| 2. Exposure | A, B, C | Is further exposure likely to take place? | If yes/unknown → Domain 3. If no → 4.1. |
+| 3. Severity | A, B, C | Is the disease likely to be moderate to severe among cases in this population? | → 4.2 (severity answer determines which 4.2 branch, and later which 5.2 gate, is reached — see `domains_and_questions.md` §6). |
 | 4.1 Spread and scale | (single question, no sub-letters — coded directly) | Are a significant number of people currently affected? | If no → terminal (Very low). If yes/unknown → **5.2a**. |
-| 4.2 Spread and scale | A4, B4, C4, D4 | Could a high number of cases or substantial geographical spread be expected in future? | Via Q3=No: if no → **5.2a**, if yes/unknown → **5.2b**. Via Q3=Yes/Unknown: if no → **5.2b**, if yes/unknown → 5.1. |
-| 5.1 Capacity | A5 | Is the health care system likely to be overwhelmed? | If no → **5.2c**. If yes/unknown → **5.2d**. |
-| 5.2 Capacity | B5, C5, D5, E5 | Are capacities for prevention and control measures in place? | Terminal — resolves risk level per `domains_and_questions.md` §6. **Always carry the specific gate label (5.2a/b/c/d/e) in the Domain column** — which gate you're at changes the terminal mapping. |
+| 4.2 Spread and scale | A1, A2, B, C | Could a high number of cases or substantial geographical spread be expected in future? | Via Q3=No: if no → **5.2a**, if yes/unknown → **5.2b**. Via Q3=Yes/Unknown: if no → **5.2b**, if yes/unknown → 5.1. |
+| 5.1 Capacity | A | Is the health care system likely to be overwhelmed? | If no → **5.2c**. If yes/unknown → **5.2d**. |
+| 5.2 Capacity | B, C, D, E | Are capacities for prevention and control measures in place? | Terminal — resolves risk level per `domains_and_questions.md` §6. **Always carry the specific gate label (5.2a/b/c/d/e) in the Domain column** — which gate you're at changes the terminal mapping. |
 
 ## Compatibility note
 
