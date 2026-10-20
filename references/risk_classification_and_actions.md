@@ -22,7 +22,7 @@ Immediate actions are meant to be **predefined per risk level by the Member Stat
 - Providing support — enhanced surveillance, laboratory testing, epidemiological investigation, clinical management, and supplying materials, diagnostics, vaccines, therapeutics.
 - Monitoring the signal/event through routine surveillance.
 - Sharing information with neighbouring provinces/regions, relevant offices, and colleagues.
-- Performing a more comprehensive rapid risk assessment (i.e., escalating to MS-RRA).
+- Performing a more comprehensive, multidisciplinary rapid risk assessment.
 - Discarding the signal/event (appropriate at Very low, when Domain 4.1 resolves NO with no further questions).
 
 This list is neither comprehensive nor prescriptive — add or substitute actions to fit the nature and context of the specific signal or event.
@@ -31,7 +31,7 @@ This list is neither comprehensive nor prescriptive — add or substitute action
 
 These sit outside the branching logic and should be checked every time, not just at specific risk levels:
 
-**(i) IHR (2005) Annex 2.** Always run an IHR Annex 2 notification check (as amended by WHA77.17) for any event that may meet notification criteria. This determination is independent of the QIRA risk level — never treat a low QIRA result as grounds to skip it.
+**(i) IHR (2005) Annex 2.** Always run an IHR Annex 2 notification check (as amended by WHA77.17) for any event that may meet notification criteria. Use `references/ihr_annex2_decision_instrument.md` for the actual four-criteria instrument and disease lists rather than reasoning from general knowledge — this determination is independent of the QIRA risk level, and never treat a low QIRA result as grounds to skip it.
 
 **(ii) International spread risk.** If there's a risk of the event spreading across borders, share information promptly with neighbouring countries/areas, and encourage them to assess their own importation risk.
 
@@ -41,6 +41,6 @@ These sit outside the branching logic and should be checked every time, not just
 
 **(v) Novel or unknown hazard.** The team decides, as a judgement call, whether to route Domain 1 as YES or NO/UNKNOWN for a hazard that's genuinely novel or unclassified. Document the reasoning either way.
 
-## 4. Interaction with MS-RRA
+## 4. When QIRA alone isn't enough
 
-A moderate, high, or very-high QIRA result is itself one of the indicative criteria for initiating MS-RRA (see `algorithm_essentials.md` §1). When QIRA resolves to one of these levels — or when the event involves serious potential implications, IHR Annex 2 relevance, multi-jurisdiction spread, or unknown aetiology — flag in the output that MS-RRA escalation should be considered, per Step 11 of SKILL.md.
+A Moderate, High, or Very high result — or an event with serious potential implications, IHR Annex 2 relevance, multi-jurisdiction spread, or unknown aetiology — is a signal that a more comprehensive, multidisciplinary rapid risk assessment process may be warranted beyond what QIRA's fixed yes/no/unknown format can capture (see `algorithm_essentials.md` §6.1). Flag this in the output per Step 11 of SKILL.md, without prescribing which specific downstream tool or process the jurisdiction should use for that follow-up — that's a local decision outside QIRA's own scope.

@@ -9,6 +9,7 @@
 ---
 
 ## Table of contents
+0. Sub-question labelling convention
 1. Domain 1 — High-threat hazard
 2. Domain 2 — Exposure
 3. Domain 3 — Severity
@@ -19,19 +20,45 @@
 
 ---
 
+## 0. Sub-question labelling convention
+
+**Sub-questions are lettered within their own question, and always cited with that question's number attached.** Domain 2's first sub-question is `Q2 A`, Domain 5's barriers question is `Q5.2 E`. Inside a domain's own section below, the bare letter is enough; anywhere else — Recording Form rationale, Evaluation Form evidence cells, confidence statements, chat narration — carry the question number.
+
+This matters more than a naming convention usually would, because one letter is genuinely ambiguous without it. **`A1` means Question 4.2's first sub-question here, and Domain 1's first sub-question in the WHO manual.** Writing `Q4.2 A1` and `Q1 A` keeps the two apart; writing bare `A1` does not, and a reader who resolves it the wrong way is reading the wrong sub-question.
+
+The WHO manual letters sub-questions globally instead (`A1`–`C1`, `A2`–`C2`, `A3`–`C3`, `A4`–`D4`, `A5`, `B5`–`E5`). This skill does not, so a crosswalk is needed whenever an analyst is reading the manual alongside a skill output:
+
+| This skill | WHO manual | Question |
+|---|---|---|
+| Q1 A / B / C | A1 / B1 / C1 | High-threat list exists / hazard on it / override elected |
+| Q2 A / B / C | A2 / B2 / C2 | Hazard present / exposure possible / population susceptible |
+| Q3 A / B / C | A3 / B3 / C3 | CFR / morbidity / unusual severity for this event |
+| **Q4.2 A1** | **A4** | High potential to spread in nature |
+| **Q4.2 A2** | **B4** | Frequent contact with the hazard likely |
+| **Q4.2 B** | **C4** | High attack rate observed |
+| **Q4.2 C** | **D4** | Unknown route AND moderate-to-high cases in a short period |
+| Q5.1 A | A5 | Health system overwhelmed or likely to be |
+| Q5.2 B / C / D / E | B5 / C5 / D5 / E5 | PH measures / clinical management / RCCE / barriers |
+
+Question 4.1 has no sub-questions in either scheme — it is coded directly.
+
+Two things follow. When quoting the manual, quote its labels as printed and give this skill's equivalent alongside rather than silently converting. And when an analyst names a sub-question in an unqualified way, check which scheme they mean before coding against it — the four Q4.2 rows are where a mismatch does real damage, since `A4` and `Q4.2 A1` are the same question under different names while `A1` and `Q4.2 A1` are not.
+
+---
+
 ## 1. Domain 1 — High-threat hazard
 
 Assesses whether the hazard is already on the Member State's predefined high-threat list. If so, most of the walk can be skipped.
 
 **Overall Question 1**: Does the signal or event involve a hazard predefined as a high threat in your geographical area?
 
-- **A1** — Is there a predefined list of high-threat hazards for this geographical area? (See `algorithm_essentials.md` §4 for how such lists are built.)
-- **B1** — Does the signal/event involve a hazard on that list?
-- **C1** — If the hazard *is* on the list, does the team still prefer to walk all subsequent domains anyway? This is a deliberate override: the team may have good reason to assess exposure/severity/spread/capacity in full even for a listed hazard. If elected, **document the justification** in the Results Recording Form — this is flagged in the manual as a decision that needs compelling, stated reasons.
+- **A** — Is there a predefined list of high-threat hazards for this geographical area? (See `algorithm_essentials.md` §4 for how such lists are built.)
+- **B** — Does the signal/event involve a hazard on that list?
+- **C** — If the hazard *is* on the list, does the team still prefer to walk all subsequent domains anyway? This is a deliberate override: the team may have good reason to assess exposure/severity/spread/capacity in full even for a listed hazard. If elected, **document the justification** in the Results Recording Form — this is flagged in the manual as a decision that needs compelling, stated reasons.
 
 **Routing:**
-- **YES** → when (A1=YES AND B1=YES) AND C1=NO. Skip Domains 2–4 entirely; go directly to Question 5.2 (capacity for prevention/control) — *not* 5.1.
-- **NO / UNKNOWN** → when (A1=NO OR B1=NO) OR (A1=YES AND B1=YES AND C1=YES). Continue to Domain 2.
+- **YES** → when (A=YES AND B=YES) AND C=NO. Skip Domains 2–4 entirely; go directly to Question 5.2 (capacity for prevention/control) — *not* 5.1.
+- **NO / UNKNOWN** → when (A=NO OR B=NO) OR (A=YES AND B=YES AND C=YES). Continue to Domain 2.
 
 **Assumption note**: if the event occurred outside the Member State (potential importation) or the pathogen is circulating in animals without confirmed human spillover, assume detection has already occurred within the Member State before answering — see §7 below. Document the assumption.
 
@@ -43,16 +70,16 @@ Assesses whether further exposure is likely, given current presence of the hazar
 
 **Overall Question 2**: Is further exposure likely to take place?
 
-- **A2** — Is the hazard still present? (biological/infectious, chemical, or radiological/nuclear)
-- **B2** — Can people still be exposed? Consider mode of transmission, infectious period, implemented public health measures, behaviour, and travel/trade movement of people, animals, products, vectors.
-- **C2** — Is the potentially-affected population susceptible upon exposure? Consider immunity (vaccination/prior infection) and size of susceptible population; for chemical/radiological hazards, whether concentration exceeds the threshold known to cause adverse effects.
+- **A** — Is the hazard still present? (biological/infectious, chemical, or radiological/nuclear)
+- **B** — Can people still be exposed? Consider mode of transmission, infectious period, implemented public health measures, behaviour, and travel/trade movement of people, animals, products, vectors.
+- **C** — Is the potentially-affected population susceptible upon exposure? Consider immunity (vaccination/prior infection) and size of susceptible population; for chemical/radiological hazards, whether concentration exceeds the threshold known to cause adverse effects.
 
 **Routing:**
-- **YES** → A2=YES AND B2=YES AND C2=YES. Continue to Domain 3.
-- **NO** → A2=NO OR B2=NO OR C2=NO. Skip to Question 4.1 (Domain 4, "significant number currently affected" branch).
+- **YES** → A=YES AND B=YES AND C=YES. Continue to Domain 3.
+- **NO** → A=NO OR B=NO OR C=NO. Skip to Question 4.1 (Domain 4, "significant number currently affected" branch).
 - **UNKNOWN** → genuine uncertainty on the overall question. Continue to Domain 3 (uncertainty is treated like YES for routing purposes here).
 
-**Note on low-discrimination answers.** For any event that is currently ongoing, A2 ("is the hazard still present?") is affirmative more or less by definition, so a Yes here carries little information about the specific event. The same is true of A3/B3 for a hazard with a well-known severity profile — coding rabies as severe restates the pathogen, not the signal. This is a property of the WHO algorithm as written, not something this skill can or should fix by answering differently. What the skill *can* do is name it: where a sub-question is affirmative on definitional grounds rather than event-specific evidence, say so in the rationale, so a reader does not mistake a near-automatic Yes for a finding about this event. Flag it as an observation about the algorithm's structure and attribute it as such — the manual does not comment on it.
+**Note on low-discrimination answers.** For any event that is currently ongoing, Q2 A ("is the hazard still present?") is affirmative more or less by definition, so a Yes here carries little information about the specific event. The same is true of Q3 A/B for a hazard with a well-known severity profile — coding rabies as severe restates the pathogen, not the signal. This is a property of the WHO algorithm as written, not something this skill can or should fix by answering differently. What the skill *can* do is name it: where a sub-question is affirmative on definitional grounds rather than event-specific evidence, say so in the rationale, so a reader does not mistake a near-automatic Yes for a finding about this event. Flag it as an observation about the algorithm's structure and attribute it as such — the manual does not comment on it.
 
 ---
 
@@ -62,9 +89,9 @@ Assesses clinical severity among cases: morbidity, mortality, complications.
 
 **Overall Question 3**: Is the disease likely to be moderate to severe among cases in this population?
 
-- **A3** — Is the case fatality rate (CFR) moderate to high? Consider disease- and context-specific knowledge, including CFR variation by risk group and by treatment/case-management limitations.
-- **B3** — Has the disease caused (or is it known to cause) high morbidity? Consider ICU admission proportion, severe complications, long-term sequelae.
-- **C3** — Has unusually high morbidity or mortality been observed in *this* signal/event compared with what's previously known for the hazard?
+- **A** — Is the case fatality rate (CFR) moderate to high? Consider disease- and context-specific knowledge, including CFR variation by risk group and by treatment/case-management limitations.
+- **B** — Has the disease caused (or is it known to cause) high morbidity? Consider ICU admission proportion, severe complications, long-term sequelae.
+- **C** — Has unusually high morbidity or mortality been observed in *this* signal/event compared with what's previously known for the hazard?
 
 **Routing:** Domain 3 always proceeds to Question 4.2 next — but *which* branch of Question 4.2 downstream capacity routing follows depends on whether Q3 came out YES/UNKNOWN or NO (see the consolidated table in §6; this is one of the places the tree forks on an answer that isn't itself a stop/go decision).
 
@@ -80,20 +107,22 @@ Examines potential for the hazard to spread further, geographically and in case 
 
 **Question 4.2** (asked only if Overall Question 2 = YES or UNKNOWN): Could a high number of cases or substantial geographical spread be expected in future?
 
-- **A4** — Does the hazard have high potential to spread in nature? (Infectious: transmissibility, incubation period, infectious period, R0/Rt, susceptible population size, proportion asymptomatic, unknown transmission chains. Chemical/nuclear: inherent spread potential.)
-- **B4** — Are people likely to have frequent contact with the hazard? Assess by hazard type: social mixing / PHSM compliance (human-to-human); contact with infected animals/wildlife (zoonotic); vector density and contact (vector-borne); social mixing and contaminated water/food consumption (waterborne/foodborne); continued high-level exposure/intake (chemical).
-- **C4** — Has a high attack rate been observed relative to population, place, and time period (i.e., unusually rapid spread)?
-- **D4** — If transmission route or hazard type (or both) is unknown, has a moderate-to-high number of cases been reported in a short period? For endemic diseases, benchmark against the expected baseline for the period, not raw case counts.
+- **A1** — Does the hazard have high potential to spread in nature? (Infectious: transmissibility, incubation period, infectious period, R0/Rt, susceptible population size, proportion asymptomatic, unknown transmission chains. Chemical/nuclear: inherent spread potential.)
+- **A2** — Are people likely to have frequent contact with the hazard? Assess by hazard type: social mixing / PHSM compliance (human-to-human); contact with infected animals/wildlife (zoonotic); vector density and contact (vector-borne); social mixing and contaminated water/food consumption (waterborne/foodborne); continued high-level exposure/intake (chemical).
+- **B** — Has a high attack rate been observed relative to the population, place, and time period? The manual adds that this *includes* situations where the signal or event shows unusually rapid spread of incident cases — so attack rate is the named measure, not the only admissible one. Code it by the two tiers in §4c.
+- **C** — If transmission route or hazard type (or both) is unknown, has a moderate-to-high number of cases been reported in a short period?
+
+**Manual note following B and C:** for endemic diseases, use the expected numbers in a period as the baseline; surveillance data can establish trends and trajectories to show whether case numbers are unusual. (That raw counts never carry a Yes on their own is this skill's §4b rule, not wording from the manual.)
 
 ### 4a. Unit of assessment — the overall answer defaults to the scoped population's units
 
 **"A high number of cases" means cases in the population of concern named at Step 3.** This is the strong default and it holds unless the analyst explicitly overrides it.
 
-Sub-questions may legitimately be evaluated in other units — B4 explicitly directs you to assess contact with infected animals and wildlife for zoonotic hazards, so animal-side evidence belongs in B4 and often in A4. But that evidence **informs the sub-questions; by default it does not carry the overall answer.** The overall Question 4.2 answer is about expected cases in, or geographical spread affecting, the scoped population.
+Sub-questions may legitimately be evaluated in other units — Q4.2 A2 explicitly directs you to assess contact with infected animals and wildlife for zoonotic hazards, so animal-side evidence belongs in Q4.2 A2 and often in Q4.2 A1. But that evidence **informs the sub-questions; by default it does not carry the overall answer.** The overall Question 4.2 answer is about expected cases in, or geographical spread affecting, the scoped population.
 
 Worked contrast, using a wildlife rabies epizootic scoped to humans:
 
-- *Default coding*: A4 and B4 draw on the reservoir picture as the manual directs. The overall 4.2 answer then asks whether a high number of **human** cases is expected: with sustained animal circulation, extensive exposure, and no human cases across two years, the answer is **No** → gate 5.2b.
+- *Default coding*: Q4.2 A1 and A2 draw on the reservoir picture as the manual directs. The overall 4.2 answer then asks whether a high number of **human** cases is expected: with sustained animal circulation, extensive exposure, and no human cases across two years, the answer is **No** → gate 5.2b.
 - *Mixed-unit coding*: reading the animal case count as "cases" and answering 4.2 = Yes routes to 5.1 and inflates the walk by roughly two risk levels. This is the failure mode the default exists to prevent.
 
 **Provenance note.** The manual defines scope at §4.2 and uses "cases" throughout without ever stating that the two are bound. That binding is this skill's own synthesis, not a rule the manual states — flag it as such if an analyst asks why the constraint exists.
@@ -107,23 +136,71 @@ Worked contrast, using a wildlife rabies epizootic scoped to humans:
 
 The same default governs Question 4.1 ("a significant number of people currently affected"), Domain 3's "cases," and Domain 5's caseload questions.
 
+#### Every sub-question names the population it reasons about
+
+The default above binds the **overall** answers. It is not enough on its own, because sub-question rationales can drift between populations without the overall answer visibly changing — and when they drift in different directions, the aggregation is combining units nobody chose. So from Domain 2 onward, **each sub-question rationale names the population it is reasoning about**, in a few words at the start of the cell:
+
+> *Scoped population (general population of Ontario):* …
+> *LTC residents — subgroup of scoped population:* … *Scoped-population coding:* No — …
+> *Raccoon reservoir — not the scoped population:* … *Scoped-population coding:* …
+
+Where the population named **differs from the Step 3 scope — including a subgroup inside it** — say so in the cell and give the scoped-population coding alongside. Domain 1's sub-questions are exempt: they ask about a list and a team decision, not about a population.
+
+This is a **disclosure rule, not a prohibition.** Reasoning about another population is often exactly what the manual directs. Q3 A tells the assessor to consider CFR among high-risk groups, and the manual's own worked example (Annex 2, dengue) codes Q3 A Yes on a 12% CFR in children aged 0–10 against 0.5% overall. Q4.2 A2 directs zoonotic assessments to contact with animals. The Answer column still carries the coding the rationale argues for. What the rule adds is the scoped-population coding beside it, so a reader can see whether the choice of population carried the answer. Where the two codings would give different **overall** answers, raise it as a `CONFIRM:` item and state its direction per `algorithm_essentials.md` §5a.
+
+**Provenance note.** The manual asks that the scope be defined (§4.2) and supplies the high-risk-group consideration in Q3 A; it does not ask that sub-question rationales name their population. The naming rule and the sweep below are this skill's own controls, added after reviewer comment C6.
+
+#### Population consistency sweep — before the terminal is derived
+
+After Domain 5 and before the §6a re-derivation (SKILL.md Step 9), check that **Q4.2 A2, Q5.1 A (where reached) and Q5.2 E** are all answered against the same population. These three are singled out because their subject slides easily between a concentrated group and the whole jurisdiction: contact frequency, hospital load, and barriers to response. In the reviewed run that prompted this rule, Q5.1 declared its dependency on the scope, Q4.2 A2 did not, and Q5.2 E asserted that a vulnerability sat squarely within a scope it arguably did not.
+
+- **Any of the three not answered against the Step 3 scope is declared** in its own cell, with the scoped-population coding alongside. An undeclared mismatch is a defect: correct the cell before the terminal is derived.
+- **Test claims of scope membership, don't just look for a label.** "Sits within scope" is itself an assertion about who the evidence describes.
+- **The sweep runs before the derivation, not after it**, because a correction can change a sub-question coding and therefore the terminal.
+
+Other sub-questions found reasoning about a different population are declared the same way; the three above are the ones that must be checked every time.
+
 ### 4b. State the comparator before answering
 
-The manual supplies no numeric thresholds for "high number," "significant number," or "high attack rate," and reviewers have specifically objected to answers that assert these without saying what they are measured against. Before coding A4, C4, D4, or Question 4.1, state three things explicitly in the rationale:
+The manual supplies no numeric thresholds for "high number," "significant number," or "high attack rate," and reviewers have specifically objected to answers that assert these without saying what they are measured against. Before coding Q4.2 A1, B, C, or Question 4.1, state three things explicitly in the rationale:
 
 1. **The expected baseline** for this hazard, this place, this population, and this period — sourced and hyperlinked like any other external fact.
 2. **The observed figure** over the same period and denominator.
 3. **The comparison** — the ratio, multiple, or exceedance, in the scoped population's units.
 
-If no baseline can be found, that is an **Unknown to declare, not a gap to reason past**. Writing "no precise baseline was available" and then answering Yes anyway is exactly the failure this rule exists to prevent. Where a baseline is genuinely unavailable, code the sub-question Unknown, say so in the rationale, and let the routing table handle it.
+If no baseline can be found, that is an **Unknown to declare, not a gap to reason past**. Writing "no precise baseline was available" and then answering Yes anyway is exactly the failure this rule exists to prevent. Where a baseline is genuinely unavailable, code the sub-question Unknown, say so in the rationale, and let the routing table handle it. For Q4.2 B, "unavailable" means unavailable at both tiers of §4c — check for a named spread-intensity proxy with its own comparator before declaring Unknown.
 
 Two cautions when constructing the comparison:
 
 - **Ascertainment.** Rising counts against an expanding surveillance footprint, a new case definition, or a newly established testing program partly measure detection effort, not incidence. Say which you think you are seeing, and on what basis.
 - **Control-zone expansion is not outbreak acceleration.** A jurisdiction extending its control or surveillance area into new territory indicates the response is following the hazard; it does not by itself establish that the hazard is accelerating.
 
+### 4c. Coding Q4.2 B — attack rate first, a named spread-intensity proxy second
+
+**What B is asking.** Whether transmission is occurring faster or more intensely than expected for this population, place and period. The manual names attack rate as the measure, and its own wording extends B to signals showing unusually rapid spread of incident cases. Attack rate is therefore the preferred measure, not the only admissible one. Without this reading, B defaults to Unknown for almost every real signal, because true attack rates with a stated denominator are rarely published early in an event.
+
+**Tier 1 — a true attack rate.** Cases over a stated population at risk, over a stated period, in the scoped population (or in a subgroup declared per §4a). Compare it with an expected baseline per §4b. Where a Tier 1 measure exists, it governs the coding. Tier 2 evidence may be reported beside it but does not override it; if the two point in different directions, say so.
+
+**Tier 2 — a named proxy for spread intensity**, used only when no Tier 1 measure is available:
+
+- **Epidemic growth rate or doubling time**, compared with what is expected for this hazard, place and season.
+- **Secondary attack rate among traced contacts**, compared with the hazard's established secondary attack rate from an authoritative source. Do not compare it with population background incidence — that is a comparison across differently constructed denominators, the exact characterization failure SKILL.md's citation section describes.
+- **Notification rate against the same-period baseline** — for example, the same weeks in prior seasons. This is the manual's endemic-disease note applied to B.
+
+**Coding rules, both tiers:**
+
+- **Label the tier and the measure in the cell** — `Tier 1 (attack rate, per 100,000, weeks 30–35)` or `Tier 2 (doubling time)` — so a reader can see what the answer rests on.
+- **Every Tier 2 measure needs its own §4b comparator** — expected value, observed value, comparison, each sourced. A proxy without a comparator is not Tier 2; it is a count with a label on it.
+- **Still no Yes off a raw count.** A count with neither a denominator nor a baseline belongs to neither tier.
+- **The ascertainment caution in §4b bites hardest here.** Growth rates, doubling times and notification rates computed from notifications all rise with testing effort and case-definition changes. Say which you think you are seeing, and on what basis.
+- **Unknown only when neither tier is available.**
+
+**Provenance note.** The manual supplies B's wording and the endemic baseline note. The ordering into tiers, the proxy list, and the rule that Tier 1 governs when present are this skill's own synthesis, added after reviewer comment C7. Flag them as such if asked.
+
+**Open design question — not resolved in this version.** The manual's rule states only when Q4.2 is **Yes**: A1 and A2 both yes, or B or C yes. It does not say whether Q4.2 is No or Unknown when no limb is Yes but a sub-question is Unknown. That difference changes the terminal, because Unknown routes like Yes (§6). Until the analyst sets a rule, **do not resolve it silently**. When it arises, raise it as a `CONFIRM:` item, give the route and terminal under each reading, and carry both into the confidence statement.
+
 **Routing:**
-- **YES** → (A4=YES AND B4=YES) OR C4=YES OR D4=YES. Continue to Domain 5.
+- **YES** → (A1=YES AND A2=YES) OR B=YES OR C=YES. Continue to Domain 5.
 - Following Q3=NO → Q4.2 answer routes to **Question 5.2** (skipping the health-system-overwhelm question).
 - Following Q3=YES/UNKNOWN → Q4.2 answer routes to **Question 5.1** if YES/UNKNOWN, or to **Question 5.2** if NO.
 
@@ -136,26 +213,26 @@ Two cautions when constructing the comparison:
 Assesses measures available to control the event: spread control, clinical management capacity, awareness/RCCE, and vulnerabilities/barriers that undermine any of the above.
 
 **Question 5.1** — Is the health care system likely to be overwhelmed? (Asked only when Q2, Q3, and Q4.2 are all YES or UNKNOWN.)
-- **A5** — Are health care systems being (or likely to be) overwhelmed by a rapid rise in cases needing hospitalization/ICU? Consider bed capacity, trained workforce, equipment/medicine/commodity availability; current and projected hospitalization/ICU numbers.
-- **YES** if A5=YES.
+- **A** — Are health care systems being (or likely to be) overwhelmed by a rapid rise in cases needing hospitalization/ICU? Consider bed capacity, trained workforce, equipment/medicine/commodity availability; current and projected hospitalization/ICU numbers.
+- **YES** if A=YES.
 
 **Question 5.2** — Are capacities for prevention and control measures in place?
-- **B5** — Are effective public health measures available/implemented/ready (surveillance & lab capacity; PHSM including isolation, contact-tracing, quarantine, movement restriction; decontamination/environmental cleaning; product removal; vector control; vaccination; timely diagnosis and treatment; IPC in health care settings)?
-- **C5** — Are adequate clinical management capacities and services available and accessible (care pathways, bed capacity, workforce, accessibility, effective therapeutics)?
-- **D5** — Is there a high level of public awareness of risks/mitigation among at-risk and affected populations, supported by effective RCCE? Consider whether people know the risks, know signs/symptoms and where to seek care, and whether RCCE is actively improving knowledge/behaviour.
-- **E5** — Are there major vulnerabilities or barriers that could undermine effectiveness or uptake of prevention, diagnosis, or clinical management (humanitarian crises, hostilities, natural disasters, concurrent outbreaks, resource shortages, distrust, stigma, discrimination)? **This one calls for expert judgement** — the manual specifically flags that the impact of a vulnerability/barrier depends heavily on context, and it should only be coded as "major" if it significantly hampers response effectiveness.
+- **B** — Are effective public health measures available/implemented/ready (surveillance & lab capacity; PHSM including isolation, contact-tracing, quarantine, movement restriction; decontamination/environmental cleaning; product removal; vector control; vaccination; timely diagnosis and treatment; IPC in health care settings)?
+- **C** — Are adequate clinical management capacities and services available and accessible (care pathways, bed capacity, workforce, accessibility, effective therapeutics)?
+- **D** — Is there a high level of public awareness of risks/mitigation among at-risk and affected populations, supported by effective RCCE? Consider whether people know the risks, know signs/symptoms and where to seek care, and whether RCCE is actively improving knowledge/behaviour.
+- **E** — Are there major vulnerabilities or barriers that could undermine effectiveness or uptake of prevention, diagnosis, or clinical management (humanitarian crises, hostilities, natural disasters, concurrent outbreaks, resource shortages, distrust, stigma, discrimination)? **This one calls for expert judgement** — the manual specifically flags that the impact of a vulnerability/barrier depends heavily on context, and it should only be coded as "major" if it significantly hampers response effectiveness.
 
 ### 5a. Capacity evidence must be current — date-stamp it
 
 Domain 5 asks what is **available and implemented now**, for this event, within the assessment window. Evidence that a jurisdiction responded competently to a comparable event in the past is a weaker claim and must not be coded as though it were active capacity.
 
-Every piece of evidence cited in B5, C5, or D5 carries its date in the rationale. Then classify it:
+Every piece of evidence cited in Q5.2 B, C, or D carries its date in the rationale. Then classify it:
 
 - **Active capacity** — documented as in effect during, or established for, the current event and assessment window. This supports a Yes.
 - **Precedent** — a protocol, advisory, or operation from a prior event or an earlier period, with no evidence it is currently in force. This supports a *weaker* claim: that the jurisdiction has the know-how and a template. Label it as precedent in the rationale and do not let it alone carry a sub-question to Yes.
 - **Unknown** — where currency cannot be established. Say so rather than assuming continuity.
 
-A concrete instance of getting this wrong: a 2023 regional vigilance call with a contact-prophylaxis protocol was cited as B5 evidence of measures in place for a 2026 cluster. A reviewer flagged that three-year gap directly. Standing programs that are documented as ongoing (a recurring vaccination campaign with a current-year operational plan, a permanent surveillance zone) are active capacity and count normally — the test is documented currency, not recency of the source article.
+A concrete instance of getting this wrong: a 2023 regional vigilance call with a contact-prophylaxis protocol was cited as Q5.2 B evidence of measures in place for a 2026 cluster. A reviewer flagged that three-year gap directly. Standing programs that are documented as ongoing (a recurring vaccination campaign with a current-year operational plan, a permanent surveillance zone) are active capacity and count normally — the test is documented currency, not recency of the source article.
 
 ---
 

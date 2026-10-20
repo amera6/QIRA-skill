@@ -4,6 +4,21 @@ All notable changes to the `qira-assessor` skill since the first commit (2026-07
 
 This file lives at the repo root, alongside `README.md` — not inside the `qira-assessor/` skill folder itself, consistent with the skill packaging convention (no extraneous files inside the folder Claude loads).
 
+## [1.8.0] — 2026-10-20
+
+Repo synced to the installed skill version. This entry is a file-level sync note, not an itemized history: changes made between 1.3.0 and 1.8.0 are not individually listed here.
+
+### Added
+- `assets/evaluation_form_blank.md` and `references/evaluation_form_guide.md` (evaluation-form output mode).
+- `references/ihr_annex2_decision_instrument.md` and `scripts/extract_docx_comments.py` were present in earlier skill packages but missing from the repo tree; now included.
+
+### Changed
+- `SKILL.md`, `references/algorithm_essentials.md`, `references/domains_and_questions.md`, `references/recording_form_template.md`, `references/risk_classification_and_actions.md`, and `assets/recording_form_blank.md` updated to the 1.8.0 versions.
+- `references/examples/worked_example.md` moved to `references/worked_example.md` to match the path `SKILL.md` reads.
+- `qira-assessor.skill` package rebuilt from the 1.8.0 files.
+
+---
+
 ## [1.2.0] — Unreleased (pending push)
 
 ### Added

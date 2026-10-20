@@ -8,16 +8,21 @@ General-purpose and self-contained — not tied to any specific program, bulleti
 
 ```
 qira-assessor/
-├── SKILL.md                          # Core procedure (14 steps, 3 modes)
+├── SKILL.md                          # Core procedure (modes, steps, output formats)
 ├── references/
 │   ├── algorithm_essentials.md       # What QIRA is, scope-setting, confidence, limitations
 │   ├── domains_and_questions.md      # The five domains + full routing logic
 │   ├── risk_classification_and_actions.md
+│   ├── ihr_annex2_decision_instrument.md
 │   ├── recording_form_template.md    # Field-by-field output guidance
+│   ├── evaluation_form_guide.md      # Guidance for the evaluation-form output mode
 │   └── worked_example.md
-└── assets/
-    ├── recording_form_blank.md       # Copy-ready output template
-    └── qira_decision_tree.md         # Mermaid diagram of the routing logic
+├── assets/
+│   ├── recording_form_blank.md       # Copy-ready output template
+│   ├── evaluation_form_blank.md      # Copy-ready evaluation-form template
+│   └── qira_decision_tree.md         # Mermaid diagram of the routing logic
+└── scripts/
+    └── extract_docx_comments.py      # Optional: pull reviewer comments from a .docx
 ```
 
 ## Installing
